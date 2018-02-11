@@ -1,3 +1,41 @@
+//跨浏览器检测
+(function () {
+    window.sys = {};
+    var ua = navigator.userAgent.toLowerCase();
+    var s;
+    (s = ua.match(/msie([\d.]+)/)) ? sys.ie = s[1] :
+        (s = ua.match(/firefox\/([\d.]+)/)) ? sys.firefox = s[1] :
+            (s = ua.match(/chrome\/([\d.]+)/)) ? sys.chrome = s[1] :
+                (s = ua.match(/opera\/.*version\/([\d.]+)/)) ? sys.opera = s[1] :
+                    (s = ua.match(/version\/([\d.]+).*safari/)) ? sys.safari = s[1] : 0;
+    if (/webkit/.test(ua)) sys.webkit = ua.match(/webkit\/([\d.]+)/)[1];
+})();
+
+//DOM加载
+function addDomLoaded(fn) {
+    var isReady = false;
+    var timer = null;
+    function doReady(fn) {
+        if (timer) clearInterval(timer);
+        if (isReady) return;
+        isReady = true;
+        fn();
+    }
+
+    if (document.addEventListener) { //w3c
+        addEvent(document, 'DOMContentLoaded', function () {
+            fn();
+            removeEvent(document, 'DOMContentLoaded', arguments.callee);
+        });
+    } else if ((sys.opera && sys.opera < 9) || (sys.firefox && sys.firefox < 3)) {
+        timer = setInterval(function () {
+            if (/loaded | complete /.test(document.readyState)) {
+                doReady(fn);
+            }
+        }, 1);
+    }
+}
+
 //跨浏览器获取视窗大小
 function getInner() {
     if (typeof window.innerWidth != 'undefined') {
@@ -15,11 +53,13 @@ function getInner() {
 
 //跨浏览器获取Style
 function getStyle(element, attr) {
+    var value ;
     if (typeof window.getComputedStyle != 'undefined') {//w3c
-        return window.getComputedStyle(element, null)[attr];
+        value = window.getComputedStyle(element, null)[attr];
     } else if (typeof element.currentStyle != 'undefined') {//ie
-        return element.currentStyle[attr];
+        value = element.currentStyle[attr];
     }
+    return value ;
 }
 
 //判断class是否存在

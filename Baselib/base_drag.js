@@ -1,5 +1,6 @@
 //拖拽功能插件
-$().extend('drag', function (tags) {
+$().extend('drag', function () {
+    var tags =  arguments;
     for (var i = 0; i < this.elements.length; i++) {
         addEvent(this.elements[i], 'mousedown', function (e) {
             if (trim(this.innerHTML).length == 0) {
