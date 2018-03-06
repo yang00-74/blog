@@ -308,26 +308,28 @@ Base.prototype.resize = function (fn) {
 
 //设置动画,方向只有left和top，表示从该方向开始，负值为相反方向
 //设置时使用x y 分别表示动画方向 ，o表示透明度
+//使用obj.fn参数作为方法实现动画队列
 Base.prototype.animate = function (obj) {
     for (var i = 0; i < this.elements.length; i++) {
         var element = this.elements[i];
         var attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top' :
                    obj['attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height' :
-                   obj['attr'] == 'o' ? 'opacity' : 'left';
+                   obj['attr'] == 'o' ? 'opacity' : obj['attr'] != undefined?obj['attr']:'left';
         var start = obj['start'] != undefined ? obj['start'] :
                     attr == 'opacity' ? parseFloat(getStyle(element, attr)) * 100
                     : parseInt(getStyle(element, attr));
-        var t = obj['t'] != undefined ? obj['t'] : 10; //时间间隔
+        var t = obj['t'] != undefined ? obj['t'] : 20; //时间间隔
         var step = obj['step'] != undefined ? obj['step'] : 20; //一次移动的像素值
         var speed = obj['speed'] != undefined ? obj['speed'] : 6; //缓冲时设置的速度值
         var type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer';
 
         var target = obj['target']; //必须的参数，动画移动距离
         var alter = obj['alter'];
+        var mul = obj['mul'];//同步动画属性
 
         if (alter != undefined && target == undefined) {
             target = alter + start;
-        } else if (alter == undefined && target == undefined) {
+        } else if (alter == undefined && target == undefined && mul == undefined) {
             throw new Error('参数错误，必须设置alter 或 target');
         }
 
@@ -342,8 +344,20 @@ Base.prototype.animate = function (obj) {
             element.style[attr] = start + 'px';
         }
 
-        clearInterval(window.timer);
-        timer = setInterval(function () {
+        if(mul == undefined){
+            mul = {};
+            mul[attr] = target;
+        }
+
+        clearInterval(element.timer);
+        element.timer = setInterval(function () {
+
+          var flag = true;
+
+          for (var i in mul) {
+                attr = i == 'x'?'left':i=='y'?'top':i=='w'?'width':i=='h'?'height':i=='o'?'opacity':
+                             i!=undefined?i:'left';
+                target = mul[i];
 
             if (type == 'buffer') {
                 step = attr == 'opacity' ?(target - parseFloat(getStyle(element, attr))*100) / speed
@@ -363,6 +377,9 @@ Base.prototype.animate = function (obj) {
                     element.style.opacity = parseInt(temp + step) / 100;
                     element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')';
                 }
+                if(parseInt(target) != parseInt(parseFloat(getStyle(element,attr))*100)){
+                    flag = false;
+                }
             } else {
                 if (step == 0) {
                     setTarget();
@@ -373,17 +390,28 @@ Base.prototype.animate = function (obj) {
                 } else {
                     element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
                 }
+                if(parseInt(target) != parseInt(getStyle(element,attr))){
+                    flag = false;
+                }
             }
+          }
+          
+          if(flag){
+            clearInterval(element.timer);
+            if (obj.fn != undefined ){
+                obj.fn();
+            }
+          }
+
         }, t);
 
         function setTarget() {
-            element.style[attr] = target + 'px';
-            clearInterval(timer);
+            element.style[attr] = target + 'px';   
         }
         function setOpacity() {
             element.style.opacity = parseInt(target) / 100;
             element.style.filter = 'alpha(opacity=' + parseInt(target) + ')';
-            clearInterval(timer);
+        
         }
     }
     return this;

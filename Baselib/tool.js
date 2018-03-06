@@ -51,6 +51,14 @@ function getInner() {
     }
 }
 
+//跨浏览器获取滚动条位置
+function getScroll() {
+    return {
+        top: document.body.scrollTop || document.documentElement.scrollTop,
+        left: document.body.scrollLeft || document.documentElement.scrollLeft
+    }
+}
+
 //跨浏览器获取Style
 function getStyle(element, attr) {
     var value ;
