@@ -4,7 +4,7 @@ body{
     padding: 0;
     font-size: 16px;
 }
-ul{
+ul,dl,dd,h2{
     padding: 0;
     margin: 0;
 }
@@ -32,7 +32,7 @@ ul li{
     cursor: pointer;
     background: url(images/down.jpg) no-repeat right center;
 }
-#header .login{
+#header .login,#header .reg {
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -109,6 +109,86 @@ ul li{
     float: right;
 }
 
+#reg {
+    width: 600px;
+    height: 550px;
+    border: 1px solid #ccc;
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    background: #fff;
+    top:100px;
+    left: 300px;
+
+}
+#reg h2{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    margin: 0 0 20px 0;
+    cursor: move;
+}
+
+#reg .close{
+    float: right;
+}
+
+#reg dl {
+   font-size: 14px;
+   color: #666;
+   margin: 20px;
+   padding-left: 10px;
+}
+
+#reg dl dd {
+   height: 30px;
+   padding: 5px 0;
+   text-align: left;
+}
+
+#reg dl dd input.text{
+    width: 200px;
+    height: 25px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+    float: right;
+    margin-right: 250px;
+}
+
+#reg dl dd select {
+    width: 202px;
+    height: 25px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+    float: right;
+    margin-right: 250px;
+}
+#reg dl dd.birthday select {
+    width: 100px;
+    height: 25px;
+    float: right;
+    margin-right: 50px;
+    margin-bottom: 20px;
+}
+#reg dl dd textarea {
+    width: 360px;
+    height: 100px;
+    background: #fff;
+    float: right;
+    margin-right: 90px;
+}
+#reg dl dd.submit {
+    cursor: pointer;
+}
+
 #login .user{
     text-align: center;
 }
@@ -135,6 +215,58 @@ ul li{
 #login .other{
     margin-top: 10px;   
     text-align: center;
+}
+
+#main {
+    width:70%;
+    border: solid 1px #000;
+    margin: 50px auto; 
+}
+
+#sidebar {
+    width: 250px;
+    height: 500px;
+    float: left;
+}
+
+#sidebar h2 {
+    width: 250px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    border-radius: 25px;
+    background: greenyellow;
+    text-indent: 10px;
+    margin: 0;
+}
+
+#sidebar ul {
+    height: 150px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    opacity: 1;
+    filter: alpha(opacity = 10)
+}
+
+#sidebar ul li {
+    height: 25px;
+    line-height: 25px;
+    background: url(images/rb.jpg) no-repeat 12px 45%;
+    text-indent: 30px;   
+}
+
+#sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+#index {
+    width: 630px;
+    height: 500px;
+    background: #eee;
+    float: right;
 }
 
 #nav {
@@ -204,9 +336,12 @@ ul li{
     width: 210px;
     height: 315px;
     border: 1px solid #ccc;
+    border-radius: 10px;
     position: absolute;
     top: 0px;
     left: -211px;
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
 }
 
 #share h2 {
@@ -223,6 +358,7 @@ ul li{
 #share ul {
     height: 254px;
     padding: 3px 0 2px 5px;
+    background: #ccc;    
 }
 
 #share ul li {

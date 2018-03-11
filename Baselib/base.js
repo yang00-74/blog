@@ -209,6 +209,35 @@ Base.prototype.eq = function (num) {
     this.elements[0] = element;
     return this;
 }
+
+// 获取当前结点的下一个节点
+Base.prototype.next = function () {
+    for (var i = 0; i < this.elements.length; i++) {
+        this.elements[i] = this.elements[i].nextSibling;
+        if (this.elements[i] == null) {
+            throw new Error('没有下一个同级元素节点');
+        }
+        if (this.elements[i].nodeType == 3) {
+            this.next();
+        }
+    }
+    return this;
+}
+
+// 获取当前结点的上一个节点
+Base.prototype.prev = function () {
+    for (var i = 0; i < this.elements.length; i++) {
+        this.elements[i] = this.elements[i].previousSibling;
+        if (this.elements[i] == null) {
+            throw new Error('没有上一个同级元素节点');
+        }
+        if (this.elements[i].nodeType == 3) {
+            this.prev();
+        }
+    }
+    return this;
+}
+
 //设置html
 Base.prototype.html = function (str) {
     for (var i = 0; i < this.elements.length; i++) {
@@ -229,6 +258,19 @@ Base.prototype.hover = function (over, out) {
     return this;
 }
 
+//设置点击切换方法
+Base.prototype.toggle = function () {
+    for (var i = 0; i < this.elements.length; i++) {
+        (function (element, args) {
+            var count = 0;
+            addEvent(element, 'click', function () {
+                args[count++ % args.length].call(this);
+            });
+        })(this.elements[i], arguments);
+    }
+    return this;
+}
+
 //设置显示
 Base.prototype.show = function () {
     for (var i = 0; i < this.elements.length; i++) {
@@ -245,8 +287,8 @@ Base.prototype.hide = function () {
 }
 //设置物体居中
 Base.prototype.center = function (width, height) {
-    var top = (getInner().height - 250) / 2;
-    var left = (getInner().width - 350) / 2;
+    var top = (getInner().height - height) / 2;
+    var left = (getInner().width - width) / 2;
 
     for (var i = 0; i < this.elements.length; i++) {
         this.elements[i].style.top = top + 'px';
@@ -313,11 +355,11 @@ Base.prototype.animate = function (obj) {
     for (var i = 0; i < this.elements.length; i++) {
         var element = this.elements[i];
         var attr = obj['attr'] == 'x' ? 'left' : obj['attr'] == 'y' ? 'top' :
-                   obj['attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height' :
-                   obj['attr'] == 'o' ? 'opacity' : obj['attr'] != undefined?obj['attr']:'left';
+            obj['attr'] == 'w' ? 'width' : obj['attr'] == 'h' ? 'height' :
+                obj['attr'] == 'o' ? 'opacity' : obj['attr'] != undefined ? obj['attr'] : 'left';
         var start = obj['start'] != undefined ? obj['start'] :
-                    attr == 'opacity' ? parseFloat(getStyle(element, attr)) * 100
-                    : parseInt(getStyle(element, attr));
+            attr == 'opacity' ? parseFloat(getStyle(element, attr)) * 100
+                : parseInt(getStyle(element, attr));
         var t = obj['t'] != undefined ? obj['t'] : 20; //时间间隔
         var step = obj['step'] != undefined ? obj['step'] : 20; //一次移动的像素值
         var speed = obj['speed'] != undefined ? obj['speed'] : 6; //缓冲时设置的速度值
@@ -341,10 +383,10 @@ Base.prototype.animate = function (obj) {
             element.style.opacity = parseInt(start) / 100;
             element.style.filter = 'alpha(opacity=' + parseInt(start) + ')';
         } else {
-            element.style[attr] = start + 'px';
+           // element.style[attr] = start + 'px';
         }
 
-        if(mul == undefined){
+        if (mul == undefined) {
             mul = {};
             mul[attr] = target;
         }
@@ -352,66 +394,66 @@ Base.prototype.animate = function (obj) {
         clearInterval(element.timer);
         element.timer = setInterval(function () {
 
-          var flag = true;
+            var flag = true;
 
-          for (var i in mul) {
-                attr = i == 'x'?'left':i=='y'?'top':i=='w'?'width':i=='h'?'height':i=='o'?'opacity':
-                             i!=undefined?i:'left';
+            for (var i in mul) {
+                attr = i == 'x' ? 'left' : i == 'y' ? 'top' : i == 'w' ? 'width' : i == 'h' ? 'height' : i == 'o' ? 'opacity' :
+                    i != undefined ? i : 'left';
                 target = mul[i];
 
-            if (type == 'buffer') {
-                step = attr == 'opacity' ?(target - parseFloat(getStyle(element, attr))*100) / speed
-                                          :(target - parseInt(getStyle(element, attr))) / speed;
-                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                if (type == 'buffer') {
+                    step = attr == 'opacity' ? (target - parseFloat(getStyle(element, attr)) * 100) / speed
+                        : (target - parseInt(getStyle(element, attr))) / speed;
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                }
+
+                if (attr == 'opacity') {
+                    if (step == 0) {
+                        setOpacity();
+                    } else if (step > 0 && Math.abs(parseFloat(getStyle(element, attr)) * 100 - target) <= step) {
+                        setOpacity();
+                    } else if (step < 0 && parseFloat(getStyle(element, attr)) * 100 - target <= Math.abs(step)) {
+                        setOpacity();
+                    } else {
+                        var temp = parseFloat(getStyle(element, attr)) * 100;
+                        element.style.opacity = parseInt(temp + step) / 100;
+                        element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')';
+                    }
+                    if (parseInt(target) != parseInt(parseFloat(getStyle(element, attr)) * 100)) {
+                        flag = false;
+                    }
+                } else {
+                    if (step == 0) {
+                        setTarget();
+                    } else if (step > 0 && Math.abs(parseInt(getStyle(element, attr)) - target) <= step) {
+                        setTarget();
+                    } else if (step < 0 && parseInt(getStyle(element, attr)) - target <= Math.abs(step)) {
+                        setTarget();
+                    } else {
+                        element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
+                    }
+                    if (parseInt(target) != parseInt(getStyle(element, attr))) {
+                        flag = false;
+                    }
+                }
             }
 
-            if (attr == 'opacity') {
-                if (step == 0) {
-                    setOpacity();
-                } else if (step > 0 && Math.abs(parseFloat(getStyle(element, attr))*100 - target) <= step) {
-                    setOpacity();
-                } else if (step < 0 && parseFloat(getStyle(element, attr))*100 - target <= Math.abs(step)) {
-                    setOpacity();
-                } else {
-                    var temp = parseFloat(getStyle(element, attr)) * 100;
-                    element.style.opacity = parseInt(temp + step) / 100;
-                    element.style.filter = 'alpha(opacity=' + parseInt(temp + step) + ')';
-                }
-                if(parseInt(target) != parseInt(parseFloat(getStyle(element,attr))*100)){
-                    flag = false;
-                }
-            } else {
-                if (step == 0) {
-                    setTarget();
-                } else if (step > 0 && Math.abs(parseInt(getStyle(element, attr)) - target) <= step) {
-                    setTarget();
-                } else if (step < 0 && parseInt(getStyle(element, attr)) - target <= Math.abs(step)) {
-                    setTarget();
-                } else {
-                    element.style[attr] = parseInt(getStyle(element, attr)) + step + 'px';
-                }
-                if(parseInt(target) != parseInt(getStyle(element,attr))){
-                    flag = false;
+            if (flag) {
+                clearInterval(element.timer);
+                if (obj.fn != undefined) {
+                    obj.fn();
                 }
             }
-          }
-          
-          if(flag){
-            clearInterval(element.timer);
-            if (obj.fn != undefined ){
-                obj.fn();
-            }
-          }
 
         }, t);
 
         function setTarget() {
-            element.style[attr] = target + 'px';   
+            element.style[attr] = target + 'px';
         }
         function setOpacity() {
             element.style.opacity = parseInt(target) / 100;
             element.style.filter = 'alpha(opacity=' + parseInt(target) + ')';
-        
+
         }
     }
     return this;
