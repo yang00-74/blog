@@ -41,61 +41,90 @@
         <h2>会员注册
             <input type="button" class="close" value="关闭">
         </h2>
-        <dl>
-            <dd>
-                用户名:
-                <input type="text" name="user" class="text" />
-            </dd>
-            <dd>
-                密 码:
-                <input type="password" name="password" class="text" />
-            </dd>
-            <dd>
-                确认密码:
-                <input type="password" name="config_password" class="text" />
-            </dd>
-            <dd>
-                提 问:
-                <select name="ques">
-                    <option value="0">-----------请选择-------</option>
-                    <option value="1">-----------喜欢的歌------</option>
-                    <option value="2">-----------喜欢的菜------</option>
-                    <option value="3">-----------喜欢的游戏-----</option>
-                </select>
-            </dd>
-            <dd>
-                回 答:
-                <input type="text" name="ans" class="text" />
-            </dd>
-            <dd>
-                电子邮件:
-                <input type="text" name="mail" class="text" />
-            </dd>
-            <dd class="birthday">
-                生日:
-                <select name="day">
-                    <option value="0">请选择日</option>
-                </select>
-                <select name="month">
-                    <option value="0">请选择月</option>
-                </select>
-                <select name="year">
-                    <option value="0">请选择年</option>
-                </select>
+        <form name="reg">
+            <dl>
+                <dd>
+                    用户名:
+                    <input type="text" name="user" class="text" />
+                    <span class="info info_user">请输入用户名，2-20位，由数字和字母组成</span>
+                    <span class="error error_user">输入不合法，请重新输入</span>
+                    <span class="succ succ_user">可用</span>
+                </dd>
+                <dd>
+                    密 码:
+                    <input type="password" name="password" class="text" />
+                    <span class="info info_pass">
+                        <p>安全级别：
+                            <strong class="s s1">■</strong>
+                            <strong class="s s2">■</strong>
+                            <strong class="s s3">■</strong>
+                            <strong class="s s4" style="font-weight:normal;"></strong>
+                        </p>
+                        <p>
+                            <strong class="q1" style="font-weight:normal">○</strong> 6-20个字符</p>
+                        <p>
+                            <strong class="q2" style="font-weight:normal">○</strong> 只包含字母、数字和非空字符</p>
+                        <p>
+                            <strong class="q3" style="font-weight:normal">○</strong>字母、数字、非空字符两种以上</p>
+                    </span>
+                    <span class="error error_pass">不合法，请重新输入</span>
+                    <span class="succ succ_pass">可用</span>
+                </dd>
+                <dd>
+                    确认密码:
+                    <input type="password" name="config_password" class="text" />
+                    <span class="info info_notpass">请确认密码</span>
+                    <span class="error error_notpass">不一致，请重新输入</span>
+                    <span class="succ succ_notpass">正确</span>
+                </dd>
+                <dd>
+                    提 问:
+                    <select name="ques">
+                        <option value="0">-----------请选择-------</option>
+                        <option value="1">-----------喜欢的歌------</option>
+                        <option value="2">-----------喜欢的菜------</option>
+                        <option value="3">-----------喜欢的游戏-----</option>
+                    </select>
+                </dd>
+                <dd>
+                    回 答:
+                    <input type="text" name="ans" class="text" />
+                    <span class="info info_ans">请输入2-32字回答</span>
+                    <span class="error error_ans">错误，请重新输入</span>
+                    <span class="succ succ_ans">可用</span>
+                </dd>
+                <dd>
+                    电子邮件:
+                    <input type="text" name="email" class="text" />
+                    <span class="info info_email">请输入电子邮件</span>
+                    <span class="error error_email">不合法，请重新输入</span>
+                    <span class="succ succ_email">可用</span>
+                </dd>
+                <dd class="birthday">
+                    生日:
+                    <select name="day">
+                        <option value="0">请选择日</option>
+                    </select>
+                    <select name="month">
+                        <option value="0">请选择月</option>
+                    </select>
+                    <select name="year">
+                        <option value="0">请选择年</option>
+                    </select>
 
-            </dd>
-            <dd style="height: 105px;">
-                备注:
-                <textarea name="ps"></textarea>
-            </dd>
-            <dd style="padding:0 0 0 320px;">
-                还可以输入200字
-            </dd>
-            <dd style="padding:0 0 0 100px;">
-                <input type="button" class="submit" value="提交" />
-            </dd>
-        </dl>
-
+                </dd>
+                <dd style="height: 105px;">
+                    备注:
+                    <textarea name="ps"></textarea>
+                </dd>
+                <dd style="padding:0 0 0 320px;">
+                    还可以输入200字
+                </dd>
+                <dd style="padding:0 0 0 100px;">
+                    <input type="button" class="submit" value="提交" />
+                </dd>
+            </dl>
+        </form>
 
     </div>
 

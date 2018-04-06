@@ -154,7 +154,7 @@ Base.prototype.getClass = function (className, parentNode) {
     }
     var all = node.getElementsByTagName('*');
     for (var i = 0; i < all.length; i++) {
-        if (all[i].className == className) {
+        if ((new RegExp('(\\s|^)' + className + '(\\s|$)')).test(all[i].className)) {
             temp.push(all[i]);
         }
     }
@@ -245,6 +245,33 @@ Base.prototype.html = function (str) {
             return this.elements[i].innerHTML;
         }
         this.elements[i].innerHTML = str;
+    }
+    return this;
+}
+
+//设置表单字段元素
+Base.prototype.form = function (name) {
+    for (var i = 0; i < this.elements.length; i++) {
+        this.elements[i] = this.elements[i][name];
+    }
+    return this;
+}
+
+//设置表单字段内容获取
+Base.prototype.value = function (str) {
+    for (var i = 0; i < this.elements.length; i++) {
+        if (arguments.length == 0) {
+            return this.elements[i].value;
+        }
+        this.elements[i].value = str;
+    }
+    return this;
+}
+
+//设置事件发生器
+Base.prototype.bind = function (event, fn) {
+    for (var i = 0; i < this.elements.length; i++) {
+        addEvent(this.elements[i], event, fn);
     }
     return this;
 }
@@ -383,7 +410,7 @@ Base.prototype.animate = function (obj) {
             element.style.opacity = parseInt(start) / 100;
             element.style.filter = 'alpha(opacity=' + parseInt(start) + ')';
         } else {
-           // element.style[attr] = start + 'px';
+            // element.style[attr] = start + 'px';
         }
 
         if (mul == undefined) {
