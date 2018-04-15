@@ -326,6 +326,21 @@ ul li{
     left:325px; 
 }
 
+#reg dl dd span.error_ques {
+    width: 155px;
+    height: 25px;
+    top: 125px;
+    padding-top:3px;
+    left:325px;
+}
+
+#reg dl dd span.error_birthday {
+    width: 155px;
+    height: 25px;
+    top: 270px;
+    padding-top:3px;
+    left:110px;
+}
 
 #reg dl dd select {
     width: 202px;
@@ -350,7 +365,37 @@ ul li{
     float: right;
     margin-right: 90px;
 }
+
+#reg dl dd.ps {
+    padding:0 0 0 320px;
+    display: none;
+}
+#reg dl dd.ps span.clear {
+   color: #06f;
+   cursor: pointer;
+}
+
 #reg dl dd.submit {
+    cursor: pointer;
+}
+
+#reg dl dd ul.all_email {
+    width: 180px;
+    height: 130px;
+    padding: 5px 10px;
+    position: absolute;
+    background: #fff;
+    top: 233px;
+    left: 107px;
+    border: 1px solid #ccc;
+    display: none;
+}
+
+#reg dl dd ul.all_email li {
+    height: 25px;
+    line-height: 25px;
+    border-bottom: 1px solid #e5edf2;
+    pad: 0px 5px;
     cursor: pointer;
 }
 

@@ -202,6 +202,11 @@ Base.prototype.last = function () {
     return this.elements[this.elements.length - 1];
 }
 
+//获取某一组节点的数量
+Base.prototype.length = function () {
+    return this.elements.length;
+}
+
 //获取某一个节点,并返回Base对象
 Base.prototype.eq = function (num) {
     var element = this.elements[num];
@@ -245,6 +250,17 @@ Base.prototype.html = function (str) {
             return this.elements[i].innerHTML;
         }
         this.elements[i].innerHTML = str;
+    }
+    return this;
+}
+
+//设置innerText
+Base.prototype.text = function (str) {
+    for (var i = 0; i < this.elements.length; i++) {
+        if (arguments.length == 0) {
+            return getInnerText(this.elements[i]);
+        }
+        setInnerText(this.elements[i], str);
     }
     return this;
 }

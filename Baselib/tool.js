@@ -61,19 +61,32 @@ function getScroll() {
 
 //跨浏览器获取Style
 function getStyle(element, attr) {
-    var value ;
+    var value;
     if (typeof window.getComputedStyle != 'undefined') {//w3c
         value = window.getComputedStyle(element, null)[attr];
     } else if (typeof element.currentStyle != 'undefined') {//ie
         value = element.currentStyle[attr];
     }
-    return value ;
+    return value;
 }
 
 //判断class是否存在
 function hasClass(element, className) {
     return element.className.match(
         new RegExp('(\\s|^)' + className + '(\\s|$)'));
+}
+
+//跨浏览器获取innerText
+function getInnerText(element) {
+    return (typeof element.textContent == 'string') ? element.textContent : element.innerText;
+}
+//跨浏览器设置innerText
+function setInnerText(element, str) {
+    if (typeof element.textContent == 'string') {
+        element.textContent = str;
+    } else {
+        element.innerText = str;
+    }
 }
 
 //跨浏览器添加link规则
@@ -183,6 +196,17 @@ function removeEvent(obj, type, fn) {
         }
     }
 }
+
+//判断数组中是否有某个值
+function isInArray (array ,value) {
+    for(var i in array) {
+        if(array[i] == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
 //删除左右空格
 function trim(str) {
     return str.replace(/(^\s*)|(\s*$)/g, '');

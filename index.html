@@ -85,6 +85,7 @@
                         <option value="2">-----------喜欢的菜------</option>
                         <option value="3">-----------喜欢的游戏-----</option>
                     </select>
+                    <span class="error error_ques">尚未选择问题，请选择！</span>
                 </dd>
                 <dd>
                     回 答:
@@ -95,10 +96,17 @@
                 </dd>
                 <dd>
                     电子邮件:
-                    <input type="text" name="email" class="text" />
+                    <input type="text" name="email" class="text" autocomplete="off"/>
                     <span class="info info_email">请输入电子邮件</span>
                     <span class="error error_email">不合法，请重新输入</span>
                     <span class="succ succ_email">可用</span>
+                    <ul class="all_email">
+                       <li><span></span>@qq.com</li>
+                       <li><span></span>@163.com</li>
+                       <li><span></span>@sina.com</li>
+                       <li><span></span>@sohu.com</li>
+                       <li><span></span>@gmail.com</li>
+                    </ul>
                 </dd>
                 <dd class="birthday">
                     生日:
@@ -111,17 +119,20 @@
                     <select name="year">
                         <option value="0">请选择年</option>
                     </select>
-
+                    <span class="error error_birthday">日期不完整！</span>
                 </dd>
                 <dd style="height: 105px;">
                     备注:
                     <textarea name="ps"></textarea>
                 </dd>
-                <dd style="padding:0 0 0 320px;">
-                    还可以输入200字
+                <dd  class = "ps">
+                    还可以输入<strong class="count">200</strong>字
+                </dd>
+                <dd  class = "ps">
+                    已经超过<strong class="count">25</strong>字,<span class="clear">清尾</span>
                 </dd>
                 <dd style="padding:0 0 0 100px;">
-                    <input type="button" class="submit" value="提交" />
+                    <input type="button" name="sub" class="submit" value="提交" />
                 </dd>
             </dl>
         </form>
