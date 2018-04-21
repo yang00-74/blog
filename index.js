@@ -599,4 +599,68 @@ $(function () {
         }
     });
 
+    //轮播器初始化
+    $('#banner img').opacity(0);
+    $('#banner img').eq(0).opacity(100);
+    $('#banner ul li').eq(0).css('color', '#fff');
+    $('#banner strong').html($('#banner img').eq(0).attr('alt'));
+
+    //轮播器计数器
+    var banner_index = 0;
+    //轮播器类别
+    var banner_type = 1; //1.横向透明度渐变 2.纵向上下滚动
+    //自动轮播定时器
+    var banner_timer = setInterval(banner_fn, 3000);
+    //手动轮播
+    $('#banner ul li').hover(function () {
+        clearInterval(banner_timer);
+        if ($(this).css('color') != '#fff' && $(this).css('color') != 'rgb(255, 255, 255)') {
+            banner(this, banner_index == 0 ? $('#banner ul li').length() - 1 : banner_index - 1);
+        }
+    }, function () {
+        banner_index = $(this).index() + 1;
+        banner_timer = setInterval(banner_fn, 3000);
+    });
+
+    function banner(obj, prev) {
+        $('#banner ul li').css('color', '#333');
+        $('#banner ul li').eq($(obj).index()).css('color', '#fff');
+        $('#banner strong').html($('#banner img').eq($(obj).index()).attr('alt'));
+
+        if (banner_type == 1) {
+            $('#banner img').eq(prev).animate({
+                attr: 'o',
+                target: 100,
+                step: 10,
+                t: 150
+            }).css('zIndex', 1);
+            $('#banner img').eq($(obj).index()).animate({
+                attr: 'o',
+                target: 0,
+                step: 10,
+                t: 150
+            }).css('zIndex', 2);
+        } else if (banner_type == 2) {
+            $('#banner img').eq(prev).animate({
+                attr: 'y',
+                target: 150,
+                step: 10,
+                t: 150
+            }).css('zIndex', 1).opacity(100);
+            $('#banner img').eq($(obj).index()).animate({
+                attr: 'y',
+                target: 0,
+                step: 10,
+                t: 150
+            }).css('top', '-150px').css('zIndex', 2).opacity(100);
+        }
+
+    }
+    function banner_fn() {
+        if (banner_index >= $('#banner ul li').length()) {
+            banner_index = 0;
+        }
+        banner($('#banner ul li').eq(banner_index).first(), banner_index == 0 ? $('#banner ul li').length() - 1 : banner_index - 1);
+        banner_index++;
+    }
 });

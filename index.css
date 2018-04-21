@@ -474,9 +474,62 @@ ul li{
 
 #index {
     width: 630px;
-    height: 500px;
+    height: 570px;
     background: #eee;
     float: right;
+}
+
+#banner {
+    width: 1050px;
+    height: 150px;
+    float: left;
+    margin: 10px 0;
+    background: #666;
+    position: relative;
+    overflow: hidden;
+}
+
+#banner img {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#banner ul {
+    position: absolute;
+    top: 125px;
+    left: 520px;
+    z-index: 4;
+}
+
+#banner ul li {
+    float: left;
+    padding: 0 5px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+#banner span {
+    width: 1050px;
+    Height:25px;
+    position: absolute;
+    top: 125px;
+    left: 0;
+    background:#333;
+    opacity: 0.3;
+    filter: alpha(opacity=30);
+    z-index: 3;
+}
+
+#banner strong {
+    position: absolute;
+    top: 130px;
+    left: 10px;
+    color: #fff;
+    z-index: 4;
 }
 
 #nav {
