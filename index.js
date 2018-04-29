@@ -106,10 +106,12 @@ $(function () {
     // });
 
     $(window).bind('scroll', function () {
-        $('#share').animate({
-            attr: 'y',
-            target: getScroll().top + getInner().height / 5
-        });
+        setTimeout(function () {
+            $('#share').animate({
+                attr: 'y',
+                target: getScroll().top + getInner().height / 5
+            });
+        }, 100);
     });
 
     //百度分享收缩效果
@@ -608,7 +610,7 @@ $(function () {
     //轮播器计数器
     var banner_index = 0;
     //轮播器类别
-    var banner_type = 1; //1.横向透明度渐变 2.纵向上下滚动
+    var banner_type = 2; //1.横向透明度渐变 2.纵向上下滚动
     //自动轮播定时器
     var banner_timer = setInterval(banner_fn, 3000);
     //手动轮播
@@ -632,26 +634,26 @@ $(function () {
                 attr: 'o',
                 target: 100,
                 step: 10,
-                t: 150
+                t: 30
             }).css('zIndex', 1);
             $('#banner img').eq($(obj).index()).animate({
                 attr: 'o',
                 target: 0,
                 step: 10,
-                t: 150
+                t: 30
             }).css('zIndex', 2);
         } else if (banner_type == 2) {
             $('#banner img').eq(prev).animate({
                 attr: 'y',
                 target: 150,
                 step: 10,
-                t: 150
+                t: 30,
             }).css('zIndex', 1).opacity(100);
             $('#banner img').eq($(obj).index()).animate({
                 attr: 'y',
                 target: 0,
                 step: 10,
-                t: 150
+                t: 30,
             }).css('top', '-150px').css('zIndex', 2).opacity(100);
         }
 
@@ -663,4 +665,173 @@ $(function () {
         banner($('#banner ul li').eq(banner_index).first(), banner_index == 0 ? $('#banner ul li').length() - 1 : banner_index - 1);
         banner_index++;
     }
+
+    //延迟加载:
+    //1.图片进入可见区域
+    //2.将xsrc 地址替换到src
+    var wait_load = $('.wait_load');
+    wait_load.opacity(0);
+    $(window).bind('scroll', _wait_load);
+    $(window).bind('resize', _wait_load);
+    function _wait_load() {
+        setTimeout(function () {
+            for (var i = 0; i < wait_load.length(); i++) {
+                var photo = wait_load.getElement(i);
+                if (getInner().height + getScroll().top >= offsetTop(photo)) {
+                    $(photo).attr('src', $(photo).attr('xsrc')).animate({
+                        attr: 'o',
+                        target: 100,
+                        step: 10,
+                        t: 30
+                    });
+                }
+            }
+        }, 100);
+    }
+
+    //图片弹窗
+    var photo_big = $('#photo_big');
+    photo_big.center(620, 550).resize(function () {
+        if (photo_big.css('display') == 'block') {
+            screen.lock();
+        }
+    });
+
+    $('#photo dl dt img').click(function () {
+        photo_big.center(620, 550).css('display', 'block');
+        screen.lock().animate({
+            attr: 'o',
+            target: 30,
+            t: 30,
+            step: 10
+        });
+        //图片加载
+        //创建缓冲图片对象
+        var temp_img = new Image();
+        // temp_img.src = 'http://cn.bing.com/az/hprichbg/rb/GreatGhost_ROW10354803922_1920x1080.jpg';
+        $(temp_img).bind('load', function () {
+            $('#photo_big .big img').attr('src', temp_img.src).animate({
+                attr: 'o',
+                target: 100,
+                t: 30,
+                step: 10
+            }).opacity(0);
+        });
+        temp_img.src = $(this).attr('bigsrc');
+
+        // 预加载当前图片的前一张和后一张,将其作为属性存储
+        var children = this.parentNode.parentNode;
+        prev_next_img(children);
+
+    });
+
+    $('#photo_big .close').click(function () {
+        photo_big.css('display', 'none');
+        screen.animate({
+            attr: 'o',
+            target: 0,
+            t: 30,
+            step: 10,
+            fn: function () {
+                screen.unlock();
+            }
+        });
+        $('#photo_big .big img').attr('src', 'images/loading.gif');
+    });
+    //拖拽窗口
+    photo_big.drag($('#photo_big h2').first());
+
+    //鼠标滑过左侧切换图标
+    $('#photo_big .big .left').hover(function () {
+        $('#photo_big .big .sl').animate({
+            attr: 'o',
+            target: 100,
+            step: 10,
+            t: 30
+        });
+    }, function () {
+        $('#photo_big .big .sl').animate({
+            attr: 'o',
+            target: 0,
+            step: 10,
+            t: 30
+        });
+    });
+
+    //鼠标滑过右侧切换图标
+    $('#photo_big .big .right').hover(function () {
+        $('#photo_big .big .sr').animate({
+            attr: 'o',
+            target: 100,
+            step: 10,
+            t: 30
+        });
+    }, function () {
+        $('#photo_big .big .sr').animate({
+            attr: 'o',
+            target: 0,
+            step: 10,
+            t: 30
+        });
+    });
+
+    //切换上一张图片
+    $('#photo_big .big .left').click(function () {
+
+        $('#photo_big .big img').attr('src', 'images/loading.gif');
+        var current_img = new Image();  
+        current_img.src = $(this).attr('src');
+
+        $(current_img).bind('load', function () {
+            $('#photo_big .big img').attr('src', current_img.src).animate({
+                attr: 'o',
+                target: 100,
+                step: 10,
+                t: 30
+            }).opacity(0);
+        });
+
+        var children = $('#photo dl dt img')
+            .getElement(prevIndex($('#photo_big .big img').attr('index'), $('#photo').first()))
+            .parentNode.parentNode;
+        prev_next_img(children);
+
+    });
+
+    //切换下一张图片
+    $('#photo_big .big .right').click(function () {
+        $('#photo_big .big img').attr('src', 'images/loading.gif');
+        var current_img = new Image();
+        current_img.src = $(this).attr('src');
+        
+        $(current_img).bind('load', function () {
+            $('#photo_big .big img').attr('src', current_img.src).animate({
+                attr: 'o',
+                target: 100,
+                step: 10,
+                t: 30
+            }).opacity(0);
+        });
+        
+        var children = $('#photo dl dt img')
+            .getElement(nextIndex($('#photo_big .big img').attr('index'), $('#photo').first()))
+            .parentNode.parentNode;
+        prev_next_img(children);
+
+    });
+
+    function prev_next_img(children) {
+        var prev = prevIndex($(children).index(), children.parentNode);
+        var next = nextIndex($(children).index(), children.parentNode);
+        var prev_img = new Image();
+        var next_img = new Image();
+        prev_img.src = $('#photo dl dt img').eq(prev).attr('bigsrc');
+        next_img.src = $('#photo dl dt img').eq(next).attr('bigsrc');
+        $('#photo_big .big .left').attr('src', prev_img.src);
+        $('#photo_big .big .right').attr('src', next_img.src);
+        $('#photo_big .big img').attr('index', $(children).index());
+
+        $('#photo_big .big .index').html($(children).index() + 1 + '/' + $('#photo dl dt img').length());
+    }
+
 });

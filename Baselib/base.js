@@ -208,8 +208,15 @@ Base.prototype.length = function () {
 }
 
 //获取某节点的属性
-Base.prototype.attr = function (attr) {
-    return this.elements[0][attr];
+Base.prototype.attr = function (attr, value) {
+    for (var i = 0; i < this.elements.length; i++) {
+        if (arguments.length == 1) {
+            return this.elements[i].getAttribute(attr);
+        } else {
+            this.elements[i].setAttribute(attr, value);
+        }
+    }
+    return this;
 }
 
 //获取某个节点在节点组中的下标
@@ -354,8 +361,8 @@ Base.prototype.hide = function () {
 }
 //设置物体居中
 Base.prototype.center = function (width, height) {
-    var top = (getInner().height - height) / 2;
-    var left = (getInner().width - width) / 2;
+    var top = (getInner().height - height) / 2 + getScroll().top;
+    var left = (getInner().width - width) / 2 + getScroll().left;
 
     for (var i = 0; i < this.elements.length; i++) {
         this.elements[i].style.top = top + 'px';
@@ -367,13 +374,16 @@ Base.prototype.center = function (width, height) {
 //锁屏功能
 Base.prototype.lock = function () {
     for (var i = 0; i < this.elements.length; i++) {
-        this.elements[i].style.width = getInner().width + 'px';
-        this.elements[i].style.height = getInner().height + 'px';
+        this.elements[i].style.width = getInner().width + getScroll().left + 'px';
+        this.elements[i].style.height = getInner().height + getScroll().top + 'px';
         this.elements[i].style.display = 'block';
 
         //锁屏时隐藏滚动条
-        document.documentElement.style.overflow = 'hidden';
-        addEvent(window, 'scroll', scrollTop);
+        parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'hidden'
+            : document.documentElement.style.overflow = 'hidden';
+        addEvent(document, 'mousedown', preDef);
+        addEvent(document, 'mouseup', preDef);
+        addEvent(document, 'selectstart', preDef);
     }
     return this;
 }
@@ -383,8 +393,11 @@ Base.prototype.unlock = function () {
         this.elements[i].style.display = 'none';
 
         //解锁屏时显示滚动条
-        document.documentElement.style.overflow = 'auto';
-        removeEvent(window, 'scroll', scrollTop);
+        parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'auto'
+            : document.documentElement.style.overflow = 'auto';
+        removeEvent(document, 'mousedown', preDef);
+        removeEvent(document, 'mouseup', preDef);
+        removeEvent(document, 'selectstart', preDef);
     }
     return this;
 }
@@ -403,11 +416,17 @@ Base.prototype.resize = function (fn) {
         var element = this.elements[i];
         window.onresize = function () {
             fn();
-            if (element.offsetLeft > getInner().width - element.offsetWidth) {
-                element.style.left = getInner().width - element.offsetWidth + 'px';
+            if (element.offsetLeft > getInner().width + getScroll().left - element.offsetWidth) {
+                element.style.left = getInner().width + getScroll().left - element.offsetWidth + 'px';
+                if (element.offsetLeft <= 0 + getScroll().left) {
+                    element.style.left = 0 + getScroll().left + 'px';
+                }
             }
-            if (element.offsetTop > getInner().height - element.offsetHeight) {
-                element.style.top = getInner().height - element.offsetHeight + 'px';
+            if (element.offsetTop > getInner().height + getScroll().top - element.offsetHeight) {
+                element.style.top = getInner().height + getScroll().top - element.offsetHeight + 'px';
+                if (element.offsetTop <= 0 + getScroll().top) {
+                    element.style.top = 0 + getScroll().top + 'px';
+                }
             }
         };
     }
@@ -429,7 +448,7 @@ Base.prototype.animate = function (obj) {
                 : parseInt(getStyle(element, attr));
         var t = obj['t'] != undefined ? obj['t'] : 20; //时间间隔
         var step = obj['step'] != undefined ? obj['step'] : 20; //一次移动的像素值
-        var speed = obj['speed'] != undefined ? obj['speed'] : 6; //缓冲时设置的速度值
+        var speed = obj['speed'] != undefined ? obj['speed'] : 10; //缓冲时设置的速度值
         var type = obj['type'] == 0 ? 'constant' : obj['type'] == 1 ? 'buffer' : 'buffer';
 
         var target = obj['target']; //必须的参数，动画移动距离

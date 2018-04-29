@@ -428,7 +428,7 @@ ul li{
 }
 
 #main {
-    width:70%;
+    width:1050px;
     border: solid 1px #000;
     margin: 50px auto; 
 }
@@ -473,20 +473,20 @@ ul li{
 }
 
 #index {
-    width: 630px;
+    width: 750px;
     height: 570px;
     background: #eee;
     float: right;
 }
 
 #banner {
-    width: 1050px;
+    width: 100%;
     height: 150px;
     float: left;
     margin: 10px 0;
-    background: #666;
     position: relative;
     overflow: hidden;
+    background: #333
 }
 
 #banner img {
@@ -530,6 +530,123 @@ ul li{
     left: 10px;
     color: #fff;
     z-index: 4;
+}
+
+#photo {
+    width: 1050px;
+    float: left;
+}
+
+#photo dl{
+    width: 255px;
+    height: 270px;
+    float: left;
+    margin: 5px 0 15px 0;
+}
+
+#photo dl dt{
+    width:200px;
+    height: 250px;
+    background: #eee;
+    margin: 0 auto;
+}
+
+#photo dl dt img {
+    cursor: pointer;
+}
+
+#photo dl dd{
+   height: 25px;
+   line-height: 25px;
+   text-align: center;
+}
+
+#photo_big {
+    width: 620px;
+    height: 550px;
+    border: 1px solid #ccc;
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    background: #fff;
+    top:100px;
+    left: 300px;
+}
+#photo_big h2{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+}
+
+#photo_big .close{
+    float: right;
+}
+#photo_big .big {
+    width: 620px;
+    height: 500px;
+    padding:20px 0 0 0;
+    background: #333;
+}
+#photo_big .big img {
+    display:block;
+    margin:0 auto;
+    width:600px;
+    height:460px;
+}
+#photo_big .big strong {
+    display:block;
+    line-height: 100px;
+    text-align: center;
+    width:100px;
+    height:100px;
+    background: #000;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 60px;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+}
+#photo_big .big strong.sl {
+    top:240px;
+    left: 20px;
+}
+#photo_big .big strong.sr {
+    top:240px;
+    right: 20px;
+}
+#photo_big .big span {
+    display: block;
+    width: 300px;
+    height: 450px;
+    background: #000;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    position: absolute;
+    cursor: pointer;
+}
+#photo_big .big span.left {
+    top:50px;
+    left: 10px;
+}
+#photo_big .big span.right {
+    top:50px;
+    right: 10px;
+}
+#photo_big .big em {
+    position: absolute;
+    top: 480px;
+    right: 20px;
+    color: #fff;
+    font-size: 14px;
+    font-style:normal; 
 }
 
 #nav {

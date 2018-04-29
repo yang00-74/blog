@@ -198,22 +198,45 @@ function removeEvent(obj, type, fn) {
 }
 
 //判断数组中是否有某个值
-function isInArray (array ,value) {
-    for(var i in array) {
-        if(array[i] == value) {
+function isInArray(array, value) {
+    for (var i in array) {
+        if (array[i] == value) {
             return true;
         }
     }
     return false;
+}
+//获取某个元素到最外层顶点的距离
+function offsetTop(element) {
+    var top = element.offsetTop;
+    var parent = element.offsetParent;
+    while (parent != null) {
+        top += parent.offsetTop;
+        parent = parent.offsetParent;
+    }
+    return top;
 }
 
 //删除左右空格
 function trim(str) {
     return str.replace(/(^\s*)|(\s*$)/g, '');
 }
-//滚动条清零
-function scrollTop() {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-}
 
+
+
+//获取某个节点的上一个同级节点的下标
+function prevIndex(current, parent) {
+    var length = parent.children.length;
+    if (current == 0) {
+        return length - 1;
+    }
+    return parseInt(current) - 1;
+}
+//获取摸个节点的下一个同级节点的下标
+function nextIndex(current, parent) {
+    var length = parent.children.length;
+    if (current == length - 1) {
+        return 0;
+    }
+    return parseInt(current) + 1;
+}

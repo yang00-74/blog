@@ -1,6 +1,6 @@
 //拖拽功能插件
 $().extend('drag', function () {
-    var tags =  arguments;
+    var tags = arguments;
     for (var i = 0; i < this.elements.length; i++) {
         addEvent(this.elements[i], 'mousedown', function (e) {
             if (trim(this.innerHTML).length == 0) {
@@ -34,14 +34,18 @@ $().extend('drag', function () {
 
                 if (left < 0) {
                     left = 0;
-                } else if (left > getInner().width - _this.offsetWidth) {
-                    left = getInner().width - _this.offsetWidth;
+                } else if (left <= getScroll().left) {
+                    left = getScroll().left;
+                } else if (left > getInner().width + getScroll().left - _this.offsetWidth) {
+                    left = getInner().width + getScroll().left - _this.offsetWidth;
                 }
 
                 if (top < 0) {
                     top = 0;
-                } else if (top > getInner().height - _this.offsetHeight) {
-                    top = getInner().height - _this.offsetHeight;
+                } else if (top <= getScroll().top) {
+                    top = getScroll().top;
+                } else if (top > getInner().height + getScroll().top - _this.offsetHeight) {
+                    top = getInner().height + getScroll().top - _this.offsetHeight;
                 }
                 _this.style.left = left + 'px';
                 _this.style.top = top + 'px';
