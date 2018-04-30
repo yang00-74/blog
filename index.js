@@ -597,7 +597,16 @@ $(function () {
         }
 
         if (flag) {
-            $('form').first().submit();
+            // $('form').first().submit(); //传统表单提交
+            ajax({ //ajax 异步提交
+                method: 'post',
+                url: 'ajax.php',//要提交的URL地址
+                data: $('form').eq(0).serialize(), //表单序列化
+                async: true,
+                success: function (text) {
+                    alert(text);
+                }
+            });
         }
     });
 
@@ -779,7 +788,7 @@ $(function () {
     $('#photo_big .big .left').click(function () {
 
         $('#photo_big .big img').attr('src', 'images/loading.gif');
-        var current_img = new Image();  
+        var current_img = new Image();
         current_img.src = $(this).attr('src');
 
         $(current_img).bind('load', function () {
@@ -803,7 +812,7 @@ $(function () {
         $('#photo_big .big img').attr('src', 'images/loading.gif');
         var current_img = new Image();
         current_img.src = $(this).attr('src');
-        
+
         $(current_img).bind('load', function () {
             $('#photo_big .big img').attr('src', current_img.src).animate({
                 attr: 'o',
@@ -812,7 +821,7 @@ $(function () {
                 t: 30
             }).opacity(0);
         });
-        
+
         var children = $('#photo dl dt img')
             .getElement(nextIndex($('#photo_big .big img').attr('index'), $('#photo').first()))
             .parentNode.parentNode;

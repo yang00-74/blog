@@ -240,3 +240,10 @@ function nextIndex(current, parent) {
     }
     return parseInt(current) + 1;
 }
+
+//滚动条固定
+function fixedScroll() {
+    setTimeout(function () {
+        window.scrollTo(fixedScroll.left, fixedScroll.top);
+    }, 100);
+}

@@ -374,6 +374,8 @@ Base.prototype.center = function (width, height) {
 //锁屏功能
 Base.prototype.lock = function () {
     for (var i = 0; i < this.elements.length; i++) {
+        fixedScroll.top = getScroll().top;
+        fixedScroll.left = getScroll().left;
         this.elements[i].style.width = getInner().width + getScroll().left + 'px';
         this.elements[i].style.height = getInner().height + getScroll().top + 'px';
         this.elements[i].style.display = 'block';
@@ -381,9 +383,11 @@ Base.prototype.lock = function () {
         //锁屏时隐藏滚动条
         parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'hidden'
             : document.documentElement.style.overflow = 'hidden';
-        addEvent(document, 'mousedown', preDef);
-        addEvent(document, 'mouseup', preDef);
-        addEvent(document, 'selectstart', preDef);
+        addEvent(this.elements[i], 'mousedown', preDef);
+        addEvent(this.elements[i], 'mouseup', preDef);
+        addEvent(this.elements[i], 'selectstart', preDef);
+
+        addEvent(window, 'scroll', fixedScroll);
     }
     return this;
 }
@@ -395,9 +399,11 @@ Base.prototype.unlock = function () {
         //解锁屏时显示滚动条
         parseFloat(sys.firefox) < 4 ? document.body.style.overflow = 'auto'
             : document.documentElement.style.overflow = 'auto';
-        removeEvent(document, 'mousedown', preDef);
-        removeEvent(document, 'mouseup', preDef);
-        removeEvent(document, 'selectstart', preDef);
+        removeEvent(this.elements[i], 'mousedown', preDef);
+        removeEvent(this.elements[i], 'mouseup', preDef);
+        removeEvent(this.elements[i], 'selectstart', preDef);
+
+        removeEvent(window, 'scroll', fixedScroll);
     }
     return this;
 }

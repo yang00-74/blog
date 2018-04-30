@@ -339,7 +339,7 @@ ul li{
     height: 25px;
     top: 270px;
     padding-top:3px;
-    left:110px;
+    left:325px;
 }
 
 #reg dl dd select {
@@ -722,6 +722,7 @@ ul li{
     left: -211px;
     opacity: 0.5;
     filter: alpha(opacity = 50);
+    z-index: 3;
 }
 
 #share h2 {
