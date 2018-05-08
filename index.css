@@ -32,12 +32,17 @@ ul li{
     cursor: pointer;
     background: url(images/down.jpg) no-repeat right center;
 }
-#header .login,#header .reg {
+#header .login,#header .reg ,#header .info{
     width: 50px;
     height: 50px;
     line-height: 50px;
     float: right;
     cursor: pointer;
+}
+
+#header .info {
+    width: auto;
+    display: none;
 }
 
 #header ul{
@@ -102,8 +107,12 @@ ul li{
     margin: 0;
     padding: 0;
     border-bottom: 1px solid #ccc;
-    margin: 0 0 20px 0;
     cursor: move;
+}
+#login div.info{
+    padding: 15px 0 5px 0;
+    text-align: center;
+    color: maroon;
 }
 #login .close{
     float: right;
@@ -211,6 +220,16 @@ ul li{
     padding-top: 2px;
     top:3px;
     left:325px;
+}
+
+#reg dl dd span.loading {
+    position: absolute;
+    width: 100px;
+    padding-top: 2px;
+    top:5px;
+    left:325px;
+    background: greenyellow;
+    display: none;
 }
 
 #reg dl dd span.info_pass {
@@ -796,4 +815,43 @@ ul li{
     left: 210px;
     background: url(images/share.gif) no-repeat;
     cursor: pointer;
+}
+
+#loading {
+    position: absolute;
+    width: 150px;
+    height: 40px;
+    background:yellowgreen;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    z-index: 10000;
+    display: none;
+    text-indent: 40px;
+}
+#loading p{
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+}
+
+
+#success {
+    position: absolute;
+    width: 150px;
+    height: 40px;
+    background:yellowgreen;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    z-index: 10000;
+    display: none;
+    text-indent: 40px;
+}
+#loading p{
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
 }

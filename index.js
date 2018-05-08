@@ -68,6 +68,7 @@ $(function () {
     });
 
     $('#header .reg').click(function () {
+        $('form').eq(0).first().reset();
         reg.center(600, 550).css('display', 'block');
         screen.lock().animate({
             attr: 'o',
@@ -181,10 +182,10 @@ $(function () {
     });
 
     //注册表单初始化
-    $('form').first().reset();
+    $('form').eq(0).first().reset();
 
     //用户名验证
-    $('form').form('user').bind('focus', function () {
+    $('form').eq(0).form('user').bind('focus', function () {
         $('#reg .info_user').css('display', 'block');
         $('#reg .error_user').css('display', 'none');
         $('#reg .succ_user').css('display', 'none');
@@ -205,14 +206,33 @@ $(function () {
     });
 
     function check_user() {
-        if (/[\w]{2,20}/.test(trim($('form').form('user').value()))) {
-            return true;
+        var flag = true;
+        if (!/[\w]{2,20}/.test(trim($('form').eq(0).form('user').value()))) {
+            $('#reg .error_user').html('输入不合法，请重新输入');
+            return false;
+        } else {
+            $('#reg .info_user').css('display', 'none');
+            $('#reg .loading').css('display', 'block');
+
+            ajax({ //ajax 异步查询
+                method: 'post',
+                url: 'check_user.php',//要提交的URL地址
+                data: $('form').eq(0).serialize(), //表单序列化
+                success: function (text) {
+                    if (text == 1) {
+                        $('#reg .error_user').html('用户已存在，请重新输入');
+                        flag = false;
+                    }
+                    $('#reg .loading').css('display', 'none');
+                },
+                async: false //同步状态查询
+            });
         }
-        return false;
+        return flag;
     }
 
     //密码验证  
-    $('form').form('password').bind('focus', function () {
+    $('form').eq(0).form('password').bind('focus', function () {
         $('#reg .info_pass').css('display', 'block');
         $('#reg .error_pass').css('display', 'none');
         $('#reg .succ_pass').css('display', 'none');
@@ -235,7 +255,7 @@ $(function () {
     });
 
     //密码强度验证
-    $('form').form('password').bind('keyup', function () {
+    $('form').eq(0).form('password').bind('keyup', function () {
         check_pass();
     });
 
@@ -316,7 +336,7 @@ $(function () {
     }
 
     //确认密码
-    $('form').form('config_password').bind('focus', function () {
+    $('form').eq(0).form('config_password').bind('focus', function () {
         $('#reg .info_notpass').css('display', 'block');
         $('#reg .error_notpass').css('display', 'none');
         $('#reg .succ_notpass').css('display', 'none');
@@ -337,14 +357,14 @@ $(function () {
     });
 
     function check_notpass() {
-        if (trim($('form').form('config_password').value()) == trim($('form').form('password').value())) {
+        if (trim($('form').eq(0).form('config_password').value()) == trim($('form').eq(0).form('password').value())) {
             return true;
         }
         return false;
     }
 
     //提问
-    $('form').form('ques').bind('change', function () {
+    $('form').eq(0).form('ques').bind('change', function () {
         if (check_ques()) {
             $('#reg .error_ques').css('display', 'none');
         }
@@ -359,7 +379,7 @@ $(function () {
     }
 
     //回答验证
-    $('form').form('ans').bind('focus', function () {
+    $('form').eq(0).form('ans').bind('focus', function () {
         $('#reg .info_ans').css('display', 'block');
         $('#reg .error_ans').css('display', 'none');
         $('#reg .succ_ans').css('display', 'none');
@@ -387,7 +407,7 @@ $(function () {
     }
 
     //电子邮件验证
-    $('form').form('email').bind('focus', function () {
+    $('form').eq(0).form('email').bind('focus', function () {
         //显示补全界面
         if ($(this).value().indexOf('@') == -1) {
             $('#reg .all_email').css('display', 'block');
@@ -423,7 +443,7 @@ $(function () {
     }
 
     //电子邮件键入补全
-    $('form').form('email').bind('keyup', function (event) {
+    $('form').eq(0).form('email').bind('keyup', function (event) {
         if ($(this).value().indexOf('@') == -1) {
             $('#reg .all_email').css('display', 'block');
             $('#reg .all_email li span').html($(this).value());
@@ -465,7 +485,7 @@ $(function () {
 
     //电子邮件点击补全
     $('#reg .all_email li').bind('mousedown', function () {
-        $('form').form('email').value($(this).text());
+        $('form').eq(0).form('email').value($(this).text());
     });
 
     //电子邮件补全移入移出事件
@@ -478,10 +498,10 @@ $(function () {
     });
 
     //生日
-    var year = $('form').form('year');
-    var month = $('form').form('month');
+    var year = $('form').eq(0).form('year');
+    var month = $('form').eq(0).form('month');
 
-    var day = $('form').form('day');
+    var day = $('form').eq(0).form('day');
     var day30 = [4, 6, 9, 11];
     var day31 = [1, 3, 5, 7, 8, 10, 12];
 
@@ -496,7 +516,7 @@ $(function () {
     year.bind('change', select_day);
     month.bind('change', select_day);
     day.bind('change', function () {
-        if (check_birthday) {
+        if (check_birthday()) {
             $('#reg .error_birthday').css('display', 'none');
         }
     });
@@ -535,19 +555,19 @@ $(function () {
     }
 
     //备注,键盘敲击，鼠标剪切黏贴触发
-    $('form').form('ps').bind('keyup', check_ps).bind('paste', function () {
+    $('form').eq(0).form('ps').bind('keyup', check_ps).bind('paste', function () {
         setTimeout(check_ps, 50);
     }).bind('cut', function () {
         setTimeout(check_ps, 50);
     });
     //清尾
     $('#reg .ps .clear').click(function () {
-        $('form').form('ps').value($('form').form('ps').value().substring(0, 200));
+        $('form').eq(0).form('ps').value($('form').eq(0).form('ps').value().substring(0, 200));
         check_ps();
     });
 
     function check_ps() {
-        var count = 200 - $('form').form('ps').value().length;
+        var count = 200 - $('form').eq(0).form('ps').value().length;
         if (count >= 0) {
             $('#reg .ps').eq(0).css('display', 'block');
             $('#reg .ps .count').eq(0).html(count);
@@ -561,7 +581,7 @@ $(function () {
         }
     }
     //提交
-    $('form').form('sub').click(function () {
+    $('form').eq(0).form('sub').click(function () {
         var flag = true;
 
         if (!check_user()) {
@@ -597,17 +617,98 @@ $(function () {
         }
 
         if (flag) {
-            // $('form').first().submit(); //传统表单提交
+            //$('form').eq(0).first().submit(); //传统表单提交
+            var _this = this;
+            _this.disabled = true;
+
+            $('#loading').css('display', 'block').center(200, 40);
+            $('#loading').html('正在提交');
             ajax({ //ajax 异步提交
                 method: 'post',
-                url: 'ajax.php',//要提交的URL地址
+                url: 'register.php',//要提交的URL地址
                 data: $('form').eq(0).serialize(), //表单序列化
                 async: true,
                 success: function (text) {
-                    alert(text);
+                    if (text == 1) {
+                        $('#loading').css('display', 'none');
+                        $('#success').css('display', 'block').center(200, 40);
+                        $('#success').html('注册成功，请登录');
+
+                        setTimeout(function () {
+                            $('#success').css('display', 'none');
+                            reg.css('display', 'none');
+                            $('#reg .succ').css('display', 'none');
+
+                            $('form').eq(0).first().reset();
+                            screen.animate({
+                                attr: 'o',
+                                target: 0,
+                                t: 30,
+                                step: 10,
+                                fn: function () {
+                                    screen.unlock();
+                                }
+                            });
+
+                            _this.disabled = false;
+                        }, 1500);
+                    }
                 }
             });
         }
+    });
+
+    //登录验证
+    $('form').eq(1).form('sub').click(function () {
+        if (/[\w]{2,20}/.test(trim($('form').eq(1).form('user').value()))
+            && $('form').eq(1).form('password').value().length >= 6) {
+            var _this = this;
+            _this.disabled = true;
+            $('#loading').css('display', 'block').center(200, 40);
+            $('#loading').html('正在登录');
+
+            ajax({ //ajax 异步提交
+                method: 'post',
+                url: 'login.php',//要提交的URL地址
+                data: $('form').eq(1).serialize(), //表单序列化
+                async: true,
+                success: function (text) {
+                    $('#loading').css('display', 'none');
+                    if (text == 1) {
+                        $('#login .info').html('');
+                        $('#success').css('display', 'block').center(200, 40);
+                        $('#success').html('登录成功');
+
+                        setCookie('user', trim($('form').eq(1).form('user').value()));
+
+                        setTimeout(function () {
+                            $('#success').css('display', 'none');
+                            login.css('display', 'none');
+                            $('form').eq(1).first().reset();
+                            screen.animate({
+                                attr: 'o',
+                                target: 0,
+                                t: 30,
+                                step: 10,
+                                fn: function () {
+                                    screen.unlock();
+                                }
+                            });
+                            $('#header .reg').css('display', 'none');
+                            $('#header .login').css('display', 'none');
+                            $('#header .info').css('display', 'block').html('欢迎,' + getCookie('user') + ' ');
+                        }, 1500);
+
+                    } else {
+                        $('#login .info').html('登录失败,用户名或密码错误');
+                    }
+                    _this.disabled = false;
+                }
+            });
+        } else {
+            $('#login .info').html('登录失败,用户名或密码不合法');
+        }
+
     });
 
     //轮播器初始化

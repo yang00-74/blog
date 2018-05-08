@@ -37,6 +37,7 @@
         </div>
         <div class="reg">注册</div>
         <div class="login">登录</div>
+        <div class="info"></div>
     </div>
 
     <div id="reg">
@@ -51,6 +52,7 @@
                     <span class="info info_user">请输入用户名，2-20位，由数字和字母组成</span>
                     <span class="error error_user">输入不合法，请重新输入</span>
                     <span class="succ succ_user">可用</span>
+                    <span class="loading">正在检测用户名...</span>
                 </dd>
                 <dd>
                     密 码:
@@ -145,6 +147,8 @@
         <h2>网站登录
             <input type="button" class="close" value="关闭">
         </h2>
+        <form name="login">
+        <div class="info"></div>
         <div class="user">
             账号：
             <input type="text" name="user" class="text" />
@@ -154,9 +158,10 @@
             <input type="password" name="password" class="text" />
         </div>
         <div class="button">
-            <input type="button" class="submit" value="登录" />
+            <input type="button" name="sub" class="submit" value="登录" />
         </div>
         <div class="other">注册新用户|忘记密码？</div>
+      </form>
     </div>
 
     <div id="nav">
@@ -344,6 +349,13 @@
             <span class="right"></span>
             <em class="index"></em>
         </div>
+    </div>
+
+    <div id="loading">
+        <p>加载中</p>
+    </div>
+    <div id="success">
+        <p>成功</p>
     </div>
 
     <div id="screen"></div>
