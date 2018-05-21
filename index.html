@@ -15,6 +15,7 @@
 </head>
 
 <body>
+  <div id ="header_bg">
     <div id="header">
         <div class="logo">
             <img src="images/logo.png" alt="" />
@@ -22,7 +23,7 @@
         <div class="member">个人中心
             <ul>
                 <li>
-                    <a href="###">设置</a>
+                    <a href="###">发表</a>
                 </li>
                 <li>
                     <a href="###">换肤</a>
@@ -39,7 +40,7 @@
         <div class="login">登录</div>
         <div class="info"></div>
     </div>
-
+  </div>
     <div id="reg">
         <h2>会员注册
             <input type="button" class="close" value="关闭">
@@ -164,6 +165,36 @@
       </form>
     </div>
 
+    <div id="blog">
+        <h2>博文发表
+            <input type="button" class="close" value="关闭">
+        </h2>
+        <div class="info"></div>
+        <form name="blog">
+            <dl>
+                <dd>
+                    标  题:
+                    <input type="text" name="title" class="title" />(*不可为空)
+                </dd>
+                
+                <dd style="height: 105px;">
+                    <span style="vertical-align:85px">内 容:</span>
+                    <textarea name="content" class="content"></textarea> 
+                    <span style="vertical-align:45px">(*不可为空)</span>
+                </dd>
+                <dd style="padding:10px 0 0 60px;">
+                    <input type="button" name="sub" class="submit" value="发表" />
+                </dd>
+            </dl>
+        </form>
+    </div>
+
+    <div id="skin">
+        <h2>更换皮肤<input type="button" class="close" value="关闭"></h2>
+        <div class="skin_bg">
+        </div>
+    </div>
+
     <div id="nav">
         <ul class="about">
             <li></li>
@@ -276,9 +307,7 @@
                 </li>
             </ul>
         </div>
-        <div id="index">
-            index
-        </div>
+        <div id="index"></div>
         <div id = "banner">
             <img src="images/gold.PNG" alt="轮播器第1张"/>
             <img src="images/pot.PNG" alt="轮播器第2张"/>

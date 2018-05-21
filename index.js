@@ -37,7 +37,7 @@ $(function () {
     });
 
     $('#header .login').click(function () {
-        login.center(350, 250).css('display', 'block');
+        login.center(350, 250).show();
         screen.lock().animate({
             attr: 'o',
             target: 30,
@@ -47,7 +47,7 @@ $(function () {
     });
 
     $('#login .close').click(function () {
-        login.css('display', 'none');
+        login.hide();
         screen.animate({
             attr: 'o',
             target: 0,
@@ -69,7 +69,7 @@ $(function () {
 
     $('#header .reg').click(function () {
         $('form').eq(0).first().reset();
-        reg.center(600, 550).css('display', 'block');
+        reg.center(600, 550).show();
         screen.lock().animate({
             attr: 'o',
             target: 30,
@@ -79,7 +79,7 @@ $(function () {
     });
 
     $('#reg .close').click(function () {
-        reg.css('display', 'none');
+        reg.hide();
         screen.animate({
             attr: 'o',
             target: 0,
@@ -186,22 +186,22 @@ $(function () {
 
     //用户名验证
     $('form').eq(0).form('user').bind('focus', function () {
-        $('#reg .info_user').css('display', 'block');
-        $('#reg .error_user').css('display', 'none');
-        $('#reg .succ_user').css('display', 'none');
+        $('#reg .info_user').show();
+        $('#reg .error_user').hide();
+        $('#reg .succ_user').hide();
     }).bind('blur', function () {
         if (trim($(this).value()) == '') {
-            $('#reg .info_user').css('display', 'none');
-            $('#reg .error_user').css('display', 'none');
-            $('#reg .succ_user').css('display', 'none');
+            $('#reg .info_user').hide();
+            $('#reg .error_user').hide();
+            $('#reg .succ_user').hide();
         } else if (!check_user()) {
-            $('#reg .error_user').css('display', 'block');
-            $('#reg .info_user').css('display', 'none');
-            $('#reg .succ_user').css('display', 'none');
+            $('#reg .error_user').show();
+            $('#reg .info_user').hide();
+            $('#reg .succ_user').hide();
         } else {
-            $('#reg .succ_user').css('display', 'block');
-            $('#reg .error_user').css('display', 'none');
-            $('#reg .info_user').css('display', 'none');
+            $('#reg .succ_user').show();
+            $('#reg .error_user').hide();
+            $('#reg .info_user').hide();
         }
     });
 
@@ -211,19 +211,19 @@ $(function () {
             $('#reg .error_user').html('输入不合法，请重新输入');
             return false;
         } else {
-            $('#reg .info_user').css('display', 'none');
-            $('#reg .loading').css('display', 'block');
+            $('#reg .info_user').hide();
+            $('#reg .loading').show();
 
             ajax({ //ajax 异步查询
                 method: 'post',
-                url: 'check_user.php',//要提交的URL地址
+                url: 'php/check_user.php',//要提交的URL地址
                 data: $('form').eq(0).serialize(), //表单序列化
                 success: function (text) {
                     if (text == 1) {
                         $('#reg .error_user').html('用户已存在，请重新输入');
                         flag = false;
                     }
-                    $('#reg .loading').css('display', 'none');
+                    $('#reg .loading').hide();
                 },
                 async: false //同步状态查询
             });
@@ -233,23 +233,23 @@ $(function () {
 
     //密码验证  
     $('form').eq(0).form('password').bind('focus', function () {
-        $('#reg .info_pass').css('display', 'block');
-        $('#reg .error_pass').css('display', 'none');
-        $('#reg .succ_pass').css('display', 'none');
+        $('#reg .info_pass').show();
+        $('#reg .error_pass').hide();
+        $('#reg .succ_pass').hide();
     }).bind('blur', function () {
         if (trim($(this).value()) == '') {
-            $('#reg .info_pass').css('display', 'none');
-            $('#reg .error_pass').css('display', 'none');
-            $('#reg .succ_pass').css('display', 'none');
+            $('#reg .info_pass').hide();
+            $('#reg .error_pass').hide();
+            $('#reg .succ_pass').hide();
         } else {
             if (check_pass()) {
-                $('#reg .info_pass').css('display', 'none');
-                $('#reg .error_pass').css('display', 'none');
-                $('#reg .succ_pass').css('display', 'block');
+                $('#reg .info_pass').hide();
+                $('#reg .error_pass').hide();
+                $('#reg .succ_pass').show();
             } else {
-                $('#reg .info_pass').css('display', 'none');
-                $('#reg .error_pass').css('display', 'block');
-                $('#reg .succ_pass').css('display', 'none');
+                $('#reg .info_pass').hide();
+                $('#reg .error_pass').show();
+                $('#reg .succ_pass').hide();
             }
         }
     });
@@ -337,22 +337,22 @@ $(function () {
 
     //确认密码
     $('form').eq(0).form('config_password').bind('focus', function () {
-        $('#reg .info_notpass').css('display', 'block');
-        $('#reg .error_notpass').css('display', 'none');
-        $('#reg .succ_notpass').css('display', 'none');
+        $('#reg .info_notpass').show();
+        $('#reg .error_notpass').hide();
+        $('#reg .succ_notpass').hide();
     }).bind('blur', function () {
         if (trim($(this).value()) == '') {
-            $('#reg .info_notpass').css('display', 'none');
-            $('#reg .error_notpass').css('display', 'none');
-            $('#reg .succ_notpass').css('display', 'none');
+            $('#reg .info_notpass').hide();
+            $('#reg .error_notpass').hide();
+            $('#reg .succ_notpass').hide();
         } else if (check_notpass()) {
-            $('#reg .info_notpass').css('display', 'none');
-            $('#reg .error_notpass').css('display', 'none');
-            $('#reg .succ_notpass').css('display', 'block');
+            $('#reg .info_notpass').hide();
+            $('#reg .error_notpass').hide();
+            $('#reg .succ_notpass').show();
         } else {
-            $('#reg .info_notpass').css('display', 'none');
-            $('#reg .error_notpass').css('display', 'block');
-            $('#reg .succ_notpass').css('display', 'none');
+            $('#reg .info_notpass').hide();
+            $('#reg .error_notpass').show();
+            $('#reg .succ_notpass').hide();
         }
     });
 
@@ -366,7 +366,7 @@ $(function () {
     //提问
     $('form').eq(0).form('ques').bind('change', function () {
         if (check_ques()) {
-            $('#reg .error_ques').css('display', 'none');
+            $('#reg .error_ques').hide();
         }
     });
 
@@ -380,22 +380,22 @@ $(function () {
 
     //回答验证
     $('form').eq(0).form('ans').bind('focus', function () {
-        $('#reg .info_ans').css('display', 'block');
-        $('#reg .error_ans').css('display', 'none');
-        $('#reg .succ_ans').css('display', 'none');
+        $('#reg .info_ans').show();
+        $('#reg .error_ans').hide();
+        $('#reg .succ_ans').hide();
     }).bind('blur', function () {
         if (trim($(this).value()) == '') {
-            $('#reg .info_ans').css('display', 'none');
-            $('#reg .error_ans').css('display', 'none');
-            $('#reg .succ_ans').css('display', 'none');
+            $('#reg .info_ans').hide();
+            $('#reg .error_ans').hide();
+            $('#reg .succ_ans').hide();
         } else if (check_ans()) {
-            $('#reg .info_ans').css('display', 'none');
-            $('#reg .error_ans').css('display', 'none');
-            $('#reg .succ_ans').css('display', 'block');
+            $('#reg .info_ans').hide();
+            $('#reg .error_ans').hide();
+            $('#reg .succ_ans').show();
         } else {
-            $('#reg .info_ans').css('display', 'none');
-            $('#reg .error_ans').css('display', 'block');
-            $('#reg .succ_ans').css('display', 'none');
+            $('#reg .info_ans').hide();
+            $('#reg .error_ans').show();
+            $('#reg .succ_ans').hide();
         }
     });
 
@@ -410,28 +410,28 @@ $(function () {
     $('form').eq(0).form('email').bind('focus', function () {
         //显示补全界面
         if ($(this).value().indexOf('@') == -1) {
-            $('#reg .all_email').css('display', 'block');
+            $('#reg .all_email').show();
         }
 
-        $('#reg .info_email').css('display', 'block');
-        $('#reg .error_email').css('display', 'none');
-        $('#reg .succ_email').css('display', 'none');
+        $('#reg .info_email').show();
+        $('#reg .error_email').hide();
+        $('#reg .succ_email').hide();
     }).bind('blur', function () {
         //隐藏补全界面
-        $('#reg .all_email').css('display', 'none');
+        $('#reg .all_email').hide();
 
         if (trim($(this).value()) == '') {
-            $('#reg .info_email').css('display', 'none');
-            $('#reg .error_email').css('display', 'none');
-            $('#reg .succ_email').css('display', 'none');
+            $('#reg .info_email').hide();
+            $('#reg .error_email').hide();
+            $('#reg .succ_email').hide();
         } else if (check_email()) {
-            $('#reg .info_email').css('display', 'none');
-            $('#reg .error_email').css('display', 'none');
-            $('#reg .succ_email').css('display', 'block');
+            $('#reg .info_email').hide();
+            $('#reg .error_email').hide();
+            $('#reg .succ_email').show();
         } else {
-            $('#reg .info_email').css('display', 'none');
-            $('#reg .error_email').css('display', 'block');
-            $('#reg .succ_email').css('display', 'none');
+            $('#reg .info_email').hide();
+            $('#reg .error_email').show();
+            $('#reg .succ_email').hide();
         }
     });
 
@@ -445,10 +445,10 @@ $(function () {
     //电子邮件键入补全
     $('form').eq(0).form('email').bind('keyup', function (event) {
         if ($(this).value().indexOf('@') == -1) {
-            $('#reg .all_email').css('display', 'block');
+            $('#reg .all_email').show();
             $('#reg .all_email li span').html($(this).value());
         } else {
-            $('#reg .all_email').css('display', 'none');
+            $('#reg .all_email').hide();
         }
         $('#reg .all_email li').css('background', 'none');
         $('#reg .all_email li').css('color', '#666');
@@ -477,7 +477,7 @@ $(function () {
 
         if (event.keyCode == 13) {
             $(this).value($('#reg .all_email li').eq(this.index).text());
-            $('#reg .all_email').css('display', 'none');
+            $('#reg .all_email').hide();
             this.index = undefined;
         }
 
@@ -517,7 +517,7 @@ $(function () {
     month.bind('change', select_day);
     day.bind('change', function () {
         if (check_birthday()) {
-            $('#reg .error_birthday').css('display', 'none');
+            $('#reg .error_birthday').hide();
         }
     });
 
@@ -569,14 +569,14 @@ $(function () {
     function check_ps() {
         var count = 200 - $('form').eq(0).form('ps').value().length;
         if (count >= 0) {
-            $('#reg .ps').eq(0).css('display', 'block');
+            $('#reg .ps').eq(0).show();
             $('#reg .ps .count').eq(0).html(count);
-            $('#reg .ps').eq(1).css('display', 'none');
+            $('#reg .ps').eq(1).hide();
             return true;
         } else {
-            $('#reg .ps').eq(0).css('display', 'none');
+            $('#reg .ps').eq(0).hide();
             $('#reg .ps .count').eq(1).html(Math.abs(count)).css('color', 'red');
-            $('#reg .ps').eq(1).css('display', 'block');
+            $('#reg .ps').eq(1).show();
             return false;
         }
     }
@@ -585,31 +585,31 @@ $(function () {
         var flag = true;
 
         if (!check_user()) {
-            $('#reg .error_user').css('display', 'block');
+            $('#reg .error_user').show();
             flag = false;
         }
         if (!check_pass()) {
-            $('#reg .error_pass').css('display', 'block');
+            $('#reg .error_pass').show();
             flag = false;
         }
         if (!check_notpass()) {
-            $('#reg .error_notpass').css('display', 'block');
+            $('#reg .error_notpass').show();
             flag = false;
         }
         if (!check_ques()) {
-            $('#reg .error_ques').css('display', 'block');
+            $('#reg .error_ques').show();
             flag = false;
         }
         if (!check_ans()) {
-            $('#reg .error_ans').css('display', 'block');
+            $('#reg .error_ans').show();
             flag = false;
         }
         if (!check_email()) {
-            $('#reg .error_email').css('display', 'block');
+            $('#reg .error_email').show();
             flag = false;
         }
         if (!check_birthday()) {
-            $('#reg .error_birthday').css('display', 'block');
+            $('#reg .error_birthday').show();
             flag = false;
         }
         if (!check_ps()) {
@@ -621,23 +621,23 @@ $(function () {
             var _this = this;
             _this.disabled = true;
 
-            $('#loading').css('display', 'block').center(200, 40);
+            $('#loading').show().center(200, 40);
             $('#loading').html('正在提交');
             ajax({ //ajax 异步提交
                 method: 'post',
-                url: 'register.php',//要提交的URL地址
+                url: 'php/register.php',//要提交的URL地址
                 data: $('form').eq(0).serialize(), //表单序列化
                 async: true,
                 success: function (text) {
                     if (text == 1) {
-                        $('#loading').css('display', 'none');
-                        $('#success').css('display', 'block').center(200, 40);
+                        $('#loading').hide();
+                        $('#success').show().center(200, 40);
                         $('#success').html('注册成功，请登录');
 
                         setTimeout(function () {
-                            $('#success').css('display', 'none');
-                            reg.css('display', 'none');
-                            $('#reg .succ').css('display', 'none');
+                            $('#success').hide();
+                            reg.hide();
+                            $('#reg .succ').hide();
 
                             $('form').eq(0).first().reset();
                             screen.animate({
@@ -664,26 +664,26 @@ $(function () {
             && $('form').eq(1).form('password').value().length >= 6) {
             var _this = this;
             _this.disabled = true;
-            $('#loading').css('display', 'block').center(200, 40);
+            $('#loading').show().center(200, 40);
             $('#loading').html('正在登录');
 
             ajax({ //ajax 异步提交
                 method: 'post',
-                url: 'login.php',//要提交的URL地址
+                url: 'php/login.php',//要提交的URL地址
                 data: $('form').eq(1).serialize(), //表单序列化
                 async: true,
                 success: function (text) {
-                    $('#loading').css('display', 'none');
+                    $('#loading').hide();
                     if (text == 1) {
                         $('#login .info').html('');
-                        $('#success').css('display', 'block').center(200, 40);
+                        $('#success').show().center(200, 40);
                         $('#success').html('登录成功');
 
                         setCookie('user', trim($('form').eq(1).form('user').value()));
 
                         setTimeout(function () {
-                            $('#success').css('display', 'none');
-                            login.css('display', 'none');
+                            $('#success').hide();
+                            login.hide();
                             $('form').eq(1).first().reset();
                             screen.animate({
                                 attr: 'o',
@@ -694,9 +694,9 @@ $(function () {
                                     screen.unlock();
                                 }
                             });
-                            $('#header .reg').css('display', 'none');
-                            $('#header .login').css('display', 'none');
-                            $('#header .info').css('display', 'block').html('欢迎,' + getCookie('user') + ' ');
+                            $('#header .reg').hide();
+                            $('#header .login').hide();
+                            $('#header .info').show().html('欢迎,' + getCookie('user') + ' ');
                         }, 1500);
 
                     } else {
@@ -808,7 +808,7 @@ $(function () {
     });
 
     $('#photo dl dt img').click(function () {
-        photo_big.center(620, 550).css('display', 'block');
+        photo_big.center(620, 550).show();
         screen.lock().animate({
             attr: 'o',
             target: 30,
@@ -836,7 +836,7 @@ $(function () {
     });
 
     $('#photo_big .close').click(function () {
-        photo_big.css('display', 'none');
+        photo_big.hide();
         screen.animate({
             attr: 'o',
             target: 0,
@@ -944,4 +944,204 @@ $(function () {
         $('#photo_big .big .index').html($(children).index() + 1 + '/' + $('#photo dl dt img').length());
     }
 
+    //博文发表弹窗
+    var blog = $('#blog');
+    blog.center(580, 320).resize(function () {
+        if (blog.css('display') == 'block') {
+            screen.lock();
+        }
+    });
+
+    $('#header .member a').eq(0).click(function () {
+        $('form').eq(2).first().reset();
+        blog.center(580, 320).show();
+        screen.lock().animate({
+            attr: 'o',
+            target: 30,
+            t: 30,
+            step: 10
+        });
+    });
+
+    $('#blog .close').click(function () {
+        blog.hide();
+        screen.animate({
+            attr: 'o',
+            target: 0,
+            t: 30,
+            step: 10,
+            fn: function () {
+                screen.unlock();
+            }
+        });
+    });
+    blog.drag($('#blog h2').first());
+
+    $('form').eq(2).form('sub').click(function () {
+        if (trim($('form').eq(2).form('title').value()).length <= 0
+            || trim($('form').eq(2).form('content').value()).length <= 0) {
+            $('#blog .info').html('发表失败，标题或内容不能为空');
+        } else {
+            var _this = this;
+            _this.disabled = true;
+            $('#loading').show().center(200, 40);
+            $('#loading').html('正在发表');
+
+            ajax({ //ajax 异步提交
+                method: 'post',
+                url: 'php/add_blog.php',//要提交的URL地址
+                data: $('form').eq(2).serialize(), //表单序列化
+                async: true,
+                success: function (text) {
+                    $('#loading').hide();
+                    if (text == 1) {
+                        $('#blog .info').html('');
+                        $('#success').show().center(200, 40);
+                        $('#success').html('发表成功');
+                        setTimeout(function () {
+                            $('#success').hide();
+                            blog.hide();
+                            $('form').eq(2).first().reset();
+                            screen.animate({
+                                attr: 'o',
+                                target: 0,
+                                t: 30,
+                                step: 10,
+                                fn: function () {
+                                    screen.unlock();
+                                    //异步更新博客
+                                    updateBlog();
+                                }
+                            });
+                        }, 1500);
+                    } else {
+                        alert(text);
+                    }
+                    _this.disabled = false;
+                }
+            });
+        }
+    });
+
+    updateBlog();
+    //更新博文列表
+    function updateBlog() {
+        $('#index').html('<span class="loading"></span>');
+        $('#index .loading').show();
+        ajax({ //ajax 异步提交
+            method: 'post',
+            url: 'php/get_blog.php',//要提交的URL地址
+            data: {}, //表单序列化
+            async: true,
+            success: function (text) {
+                $('#index .loading').hide();
+                var json = JSON.parse(text);
+                var html = '';
+                for (var i = 0; i < json.length; i++) {
+                    html += '<div class="content"><h2><em>' + json[i].submit_date
+                        + '</em>' + json[i].title + '</h2><p>' + json[i].content + '</p></div>';
+                }
+                $('#index').html(html);
+                for (var i = 0; i < json.length; i++) {
+                    $('#index .content').eq(i).animate({
+                        attr: 'o',
+                        target: 100,
+                        step: 10,
+                        t: 30
+                    });
+                }
+            }
+        });
+    }
+
+    //换肤弹窗
+    var skin = $('#skin');
+    skin.center(580, 320).resize(function () {
+        if (skin.css('display') == 'block') {
+            screen.lock();
+        }
+    });
+    $('#header .member a').eq(1).click(function () {
+        skin.center(580, 320).show();
+        screen.lock().animate({
+            attr: 'o',
+            target: 30,
+            t: 30,
+            step: 10
+        });
+        $('#skin .skin_bg').html('<span class="loading"></span>');
+        ajax({ //ajax异步请求
+            method: 'post',
+            url: 'php/get_skin.php',//要提交的URL地址
+            data: {
+                'type':'all'
+            }, //表单序列化
+            async: true,
+            success: function (text) {
+                var json = JSON.parse(text);
+                var html = '';
+                for (var i = 0; i < json.length; i++) {
+                    html += '<dl><dt><img src ="images/' + json[i].small_bg + '" big_bg="'
+                        + json[i].big_bg + '" bg_color="' + json[i].bg_color + '" alt=""></dt><dd>'
+                        + json[i].bg_text + '</dd></dl>';
+                }
+                $('#skin .skin_bg').html(html).opacity(0).animate({
+                    attr: 'o',
+                    target: 100,
+                    t: 30,
+                    step: 10
+                });
+                $('#skin dl dt img').click(function () {
+                    var color = $(this).attr('bg_color');
+                    $('body').css('background',color+' '+'url(images/'+$(this).attr('big_bg')+') repeat-x');
+                    skin.hide();
+                    screen.unlock();
+                    ajax({ //ajax异步
+                        method: 'post',
+                        url: 'php/get_skin.php',//要提交的URL地址
+                        data: {
+                            'type':'set',
+                            'big_bg':$(this).attr('big_bg')
+                        },
+                        async: true,
+                        success: function (text) {
+                            if(text == 1) {
+                                $('#success').show().center(200, 40);
+                                $('#success').html('换肤成功');
+                                setTimeout(function () {
+                                    $('#success').hide();
+                                },1500);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    });
+    $('#skin .close').click(function () {
+        skin.hide();
+        screen.animate({
+            attr: 'o',
+            target: 0,
+            t: 30,
+            step: 10,
+            fn: function () {
+                screen.unlock();
+            }
+        });
+    });
+    skin.drag($('#skin h2').first());
+    //获取skin参数
+    ajax({ //ajax异步请求
+        method: 'post',
+        url: 'php/get_skin.php',//要提交的URL地址
+        data: {
+            'type':'main'
+        },
+        async: true,
+        success: function (text) {
+          var json = JSON.parse(text)
+          $('body').css('background',json.bg_color+' '+'url(images/'+json.big_bg+') repeat-x');
+        }
+    });
 });

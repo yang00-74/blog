@@ -1,5 +1,4 @@
 body{
-    background:url(images/header_bg.png) repeat-x;
     margin: 0;
     padding: 0;
     font-size: 16px;
@@ -15,6 +14,10 @@ ul li{
    width: 900px;
    height: 50px;
    margin: 0 auto;
+}
+#header_bg{
+    width: 100%;
+    background:url(images/header_bg.png) repeat-x;
 }
 #header .logo{
     width: 100px;
@@ -418,6 +421,121 @@ ul li{
     cursor: pointer;
 }
 
+#blog {
+    width: 580px;
+    height: 320px;
+    border: 1px solid #ccc;
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    background: #fff;
+    top:100px;
+    left: 300px;
+
+}
+#blog h2{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+}
+#blog div.info{
+    padding: 15px 0 5px 0;
+    text-align: center;
+    color: maroon
+}
+#blog .close{
+    float: right;
+}
+#blog dl{
+    padding: 0 0 0 10px;
+}
+#blog dl dd{
+    float: left;
+    font-size: 14px;
+    padding: 10px;
+}
+
+#blog dl dd input.title{
+    width: 200px;
+    height: 25px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 14px;
+}
+#blog dl dd textarea.content {
+    width: 360px;
+    height: 100px;
+    max-width: 360px;
+    max-height: 100px;
+    background: #fff;
+}
+#blog dl dd input.submit {
+    width: 107px;
+    height: 33px;
+    border: none;
+    cursor: pointer;
+}
+
+#skin{
+    width: 600px;
+    height: 360px;
+    border: 1px solid #ccc;
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    background: #fff;
+    top:100px;
+    left: 300px;
+
+}
+#skin h2{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+}
+#skin .close{
+    float: right;
+}
+
+#skin .skin_bg {
+    position: relative;
+}
+#skin .skin_bg span.loading {
+    position: absolute;
+    left: 200px;
+    top: 50px;
+    background:url(images/loading2.gif) no-repeat left;
+    width: 183px;
+    height: 248px;
+}
+#skin dl{
+    float: left;
+    padding: 25px 0 0 25px;
+}
+#skin dl dt{
+    display: block;
+    cursor: pointer;
+}
+#skin dl dd{
+    text-align: center;
+    padding: 5px;
+    letter-spacing: 1px;
+}
+
 #login .user{
     text-align: center;
 }
@@ -448,7 +566,6 @@ ul li{
 
 #main {
     width:1050px;
-    border: solid 1px #000;
     margin: 50px auto; 
 }
 
@@ -476,7 +593,8 @@ ul li{
     margin: 0 0 10px 0;
     overflow: hidden;
     opacity: 1;
-    filter: alpha(opacity = 10)
+    filter: alpha(opacity = 10);
+    background: #fff;
 }
 
 #sidebar ul li {
@@ -494,10 +612,49 @@ ul li{
 #index {
     width: 750px;
     height: 570px;
-    background: #eee;
     float: right;
+    position: relative;
 }
-
+#index span.loading {
+    position: absolute;
+    left:260px;
+    top:160px;
+    background:url(images/loading2.gif) no-repeat left;
+    width: 183px;
+    height: 248px;
+    display: none;
+}
+#index div.content{
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+#index div.content h2 {
+    width: 748px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    border-radius: 25px;
+    background: greenyellow;
+    text-indent: 10px;
+    margin: 0;
+}
+#index div.content h2 em {
+    float: right;
+    font-style: normal;
+    font-weight: normal;
+    padding: 0 10px 0 0;
+}
+#index div.content p{
+    height: 130px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+    padding: 10px;
+    text-indent: 24px;
+    line-height: 150%;
+    background: #fff;
+}
 #banner {
     width: 100%;
     height: 150px;
@@ -554,6 +711,8 @@ ul li{
 #photo {
     width: 1050px;
     float: left;
+    background: #fff;
+    padding: 10px 0 0 0;
 }
 
 #photo dl{
